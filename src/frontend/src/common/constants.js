@@ -38,3 +38,6 @@ export const MAP_PIZZA = {
   sauces: SAUCES_VALUE,
   dough: DOUGH_MODIFIER,
 };
+
+export const MOVE = "move";
+export const DATA_TRANSFER_PAYLOAD = "payload";
