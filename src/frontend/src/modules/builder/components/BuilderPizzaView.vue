@@ -8,16 +8,24 @@
         placeholder="Введите название пиццы"
       />
     </label>
-
-    <div class="content__constructor">
-      <div class="pizza pizza--foundation--big-tomato">
-        <div class="pizza__wrapper">
-          <div class="pizza__filling pizza__filling--ananas"></div>
-          <div class="pizza__filling pizza__filling--bacon"></div>
-          <div class="pizza__filling pizza__filling--cheddar"></div>
+    <AppDrop @drop="addIngredient($event)">
+      <div class="content__constructor">
+        <div class="pizza pizza--foundation--big-tomato">
+          <div
+            class="pizza__wrapper"
+            >
+            <div
+              v-for="ingredient in currentPizza.ingredients"
+              :key="ingredient"
+              class="pizza__filling"
+              :class="[
+                `pizza__filling--${ingredient}`
+              ]"
+            ></div>
+          </div>
         </div>
       </div>
-    </div>
+    </AppDrop>
 
     <div class="content__result">
       <p>Итого: 0 ₽</p>
@@ -29,8 +37,27 @@
 </template>
 
 <script>
+import AppDrop from "@/components/AppDrop";
+//import users from "@/static/users.json";
+//import misc from "@/static/misc.json";
+
+const currentPizza = {};
+currentPizza.ingredients = [];
+
 export default {
   name: "BuilderPizzaView.vue",
+  components: { AppDrop },
+  data() {
+    return {
+      currentPizza,
+    }
+  },
+  methods: {
+    addIngredient(ingredient) {
+      ingredient = JSON.parse(ingredient);
+      currentPizza.ingredients.push(ingredient.value);
+    },
+  },
 };
 </script>
 

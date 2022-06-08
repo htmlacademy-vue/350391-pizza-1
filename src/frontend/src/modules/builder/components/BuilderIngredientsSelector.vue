@@ -31,18 +31,25 @@
               v-for="ingredient in ingredients"
               :key="ingredient.id"
             >
-              <AppDrop @drop="$emit('drop', $event)">
-                <AppDrag :transfer-data="ingredient" @drop="dropText">
-                  <span :class="`filling filling--${ingredient.value}`">{{
-                    ingredient.name
-                  }}</span>
+              <AppDrop @drop="$emit('drop', ingredient)">
+                <AppDrag
+                  :transfer-data=ingredient
+                  :isDraggable="checkDraggable(ingredient)"
+                >
+                  <span :class="`filling filling--${ingredient.value}`">
+                    {{ ingredient.name }}
+                  </span>
                 </AppDrag>
               </AppDrop>
 
               <div class="counter counter--orange ingredients__counter">
                 <button
                   type="button"
-                  class="counter__button counter__button--disabled counter__button--minus"
+                  class="
+                    counter__button
+                    counter__button--disabled
+                    counter__button--minus
+                  "
                 >
                   <span class="visually-hidden">Меньше</span>
                 </button>
@@ -68,10 +75,12 @@
 </template>
 
 <script>
+import AppDrag from "@/components/AppDrag";
 import AppDrop from "@/components/AppDrop";
+
 export default {
   name: "BuilderIngredientsSelector.vue",
-  components: { AppDrop },
+  components: { AppDrag, AppDrop },
   props: {
     ingredients: {
       type: Array,
@@ -83,8 +92,9 @@ export default {
     },
   },
   methods: {
-    dropText() {
-      console.log("йо");
+    //тут я хочу проверить добавленное количество ингридиента
+    checkDraggable(ingredient) {
+      return ingredient;
     },
   },
 };

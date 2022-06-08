@@ -22,9 +22,9 @@ export default {
     onDrag({ dataTransfer }) {
       dataTransfer.effectAllowed = "move";
       dataTransfer.dropEffect = "move";
-      dataTransfer.setData("text", this.transferData);
-      dataTransfer.setData("payload", JSON.stringify(this.transferData));
-      console.log("пошел");
+      dataTransfer.setData("text", JSON.stringify(this.transferData));
+      //начали перетаскивание
+      console.log(dataTransfer);
     },
   },
 };

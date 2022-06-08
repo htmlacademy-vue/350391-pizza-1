@@ -27,6 +27,8 @@ import misc from "@/static/misc.json";
 import pizza from "@/static/pizza.json";
 import users from "@/static/users.json";
 
+import currentPizza from "@/static/users.json";
+
 import { normalizePizza } from "@/common/helpers";
 import AppLayout from "@/layouts/AppLayout";
 import BuilderDoughSelector from "@/modules/builder/components/BuilderDoughSelector";

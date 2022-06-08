@@ -8,14 +8,15 @@
 export default {
   name: "AppDrop",
   methods: {
+    //Бросили на место
     onDrop({ dataTransfer }) {
-      console.log("есть");
       if (!dataTransfer) {
         return;
       }
+      console.log(dataTransfer);
       const addedIngredient = dataTransfer.getData("text");
       if (addedIngredient) {
-        const addedIngredient = JSON.parse(addedIngredient);
+        //const addedIngredient = JSON.parse(addedIngredient);
         console.log(addedIngredient);
         // Пытаюсь получить в родительском компоненту какой ингридиент перетащили
         // Пока
