@@ -14,7 +14,7 @@ export default {
         return;
       }
       console.log(dataTransfer);
-      const addedIngredient = dataTransfer.getData("text");
+      const addedIngredient = dataTransfer.getData("payload");
       if (addedIngredient) {
         //const addedIngredient = JSON.parse(addedIngredient);
         console.log(addedIngredient);

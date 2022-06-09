@@ -27,8 +27,6 @@ import misc from "@/static/misc.json";
 import pizza from "@/static/pizza.json";
 import users from "@/static/users.json";
 
-import currentPizza from "@/static/users.json";
-
 import { normalizePizza } from "@/common/helpers";
 import AppLayout from "@/layouts/AppLayout";
 import BuilderDoughSelector from "@/modules/builder/components/BuilderDoughSelector";
@@ -49,6 +47,13 @@ export default {
   },
   data() {
     return {
+      //Current pizza
+      //Во Vue нельзя динамически добавлять новые корневые реактивные свойства в уже существующий экземпляр.
+      // Можно добавить реактивное свойство во вложенные объекты, используя метод Vue.set(object, propertyName, value):
+      currentPizza: {
+        ingredient: 'kjk'
+      },
+      //Test data
       users,
       misc,
       ingredients: resultPizza.ingredients,

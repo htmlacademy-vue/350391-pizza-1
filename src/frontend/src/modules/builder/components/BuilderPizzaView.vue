@@ -47,10 +47,14 @@ currentPizza.ingredients = [];
 export default {
   name: "BuilderPizzaView.vue",
   components: { AppDrop },
-  data() {
-    return {
-      currentPizza,
+  props: {
+    currentPizza: {
+      type: Object,
+      required: true,
     }
+  },
+  data() {
+    return {}
   },
   methods: {
     addIngredient(ingredient) {

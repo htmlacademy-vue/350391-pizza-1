@@ -31,16 +31,14 @@
               v-for="ingredient in ingredients"
               :key="ingredient.id"
             >
-              <AppDrop @drop="$emit('drop', ingredient)">
-                <AppDrag
-                  :transfer-data=ingredient
-                  :isDraggable="checkDraggable(ingredient)"
-                >
-                  <span :class="`filling filling--${ingredient.value}`">
-                    {{ ingredient.name }}
-                  </span>
-                </AppDrag>
-              </AppDrop>
+              <AppDrag
+                :transfer-data="ingredient"
+                :isDraggable="checkDraggable(ingredient)"
+              >
+                <span :class="`filling filling--${ingredient.value}`">
+                  {{ ingredient.name }}
+                </span>
+              </AppDrag>
 
               <div class="counter counter--orange ingredients__counter">
                 <button
@@ -76,11 +74,10 @@
 
 <script>
 import AppDrag from "@/components/AppDrag";
-import AppDrop from "@/components/AppDrop";
 
 export default {
   name: "BuilderIngredientsSelector.vue",
-  components: { AppDrag, AppDrop },
+  components: { AppDrag },
   props: {
     ingredients: {
       type: Array,
