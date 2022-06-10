@@ -11,17 +11,15 @@
     <AppDrop @drop="addIngredient($event)">
       <div class="content__constructor">
         <div class="pizza pizza--foundation--big-tomato">
-          <div
-            class="pizza__wrapper"
-            >
-            <div
-              v-for="ingredient in currentPizza.ingredients"
-              :key="ingredient"
-              class="pizza__filling"
-              :class="[
-                `pizza__filling--${ingredient}`
-              ]"
-            ></div>
+          <div class="pizza__wrapper">
+            <div v-if="notEmptyIngredients">
+              <div
+                v-for="ingredient in ingredients"
+                :key="ingredient"
+                class="pizza__filling"
+                :class="[`pizza__filling--${ingredient}`]"
+              ></div>
+            </div>
           </div>
         </div>
       </div>
@@ -38,11 +36,10 @@
 
 <script>
 import AppDrop from "@/components/AppDrop";
+import Vue from "vue";
+//import AppDrag from "@/components/AppDrag";
 //import users from "@/static/users.json";
 //import misc from "@/static/misc.json";
-
-const currentPizza = {};
-currentPizza.ingredients = [];
 
 export default {
   name: "BuilderPizzaView.vue",
@@ -51,15 +48,32 @@ export default {
     currentPizza: {
       type: Object,
       required: true,
-    }
+    },
+    ingredientsCounts: {
+      type: Map,
+      required: true,
+    },
   },
   data() {
-    return {}
+    return {};
+  },
+  computed: {
+    notEmptyIngredients: function () {
+      return this.ingredientsCounts.size;
+    },
+    ingredients: function () {
+      this.ingredientsCounts.keys();
+      return Array.from(this.ingredientsCounts.keys());
+    },
   },
   methods: {
     addIngredient(ingredient) {
+      //Считаем;
       ingredient = JSON.parse(ingredient);
-      currentPizza.ingredients.push(ingredient.value);
+      let counter = this.ingredientsCounts.get(ingredient.value);
+      counter = (counter === undefined) ? 1 : counter++;
+      Vue.set(this.ingredientsCounts,ingredient.value, counter);
+      console.log(this.ingredientsCounts);
     },
   },
 };

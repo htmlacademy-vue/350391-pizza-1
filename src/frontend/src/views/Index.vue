@@ -13,9 +13,13 @@
           <BuilderIngredientsSelector
             :ingredients="ingredients"
             :sauces="sauces"
+            :currentPizza="currentPizza"
           />
 
-          <BuilderPizzaView />
+          <BuilderPizzaView
+            :currentPizza="currentPizza"
+            :ingredientsCounts="ingredientsCounts"
+          />
         </div>
       </form>
     </main>
@@ -50,9 +54,8 @@ export default {
       //Current pizza
       //Во Vue нельзя динамически добавлять новые корневые реактивные свойства в уже существующий экземпляр.
       // Можно добавить реактивное свойство во вложенные объекты, используя метод Vue.set(object, propertyName, value):
-      currentPizza: {
-        ingredient: 'kjk'
-      },
+      currentPizza: {},
+      ingredientsCounts: new Map(),
       //Test data
       users,
       misc,
