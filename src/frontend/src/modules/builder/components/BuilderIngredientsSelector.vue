@@ -32,8 +32,9 @@
               :key="ingredient.id"
             >
               <AppDrag
+                @dropEnd="checkIngredient($event)"
                 :transfer-data="ingredient"
-                :isDraggable="checkDraggable(ingredient)"
+                :isDraggable="draggableIngredient"
               >
                 <span :class="`filling filling--${ingredient.value}`">
                   {{ ingredient.name }}
@@ -43,11 +44,7 @@
               <div class="counter counter--orange ingredients__counter">
                 <button
                   type="button"
-                  class="
-                    counter__button
-                    counter__button--disabled
-                    counter__button--minus
-                  "
+                  class="counter__button counter__button--disabled counter__button--minus"
                 >
                   <span class="visually-hidden">Меньше</span>
                 </button>
@@ -78,6 +75,11 @@ import AppDrag from "@/components/AppDrag";
 export default {
   name: "BuilderIngredientsSelector.vue",
   components: { AppDrag },
+  data() {
+    return {
+      // draggableIngredient: true,
+    };
+  },
   props: {
     ingredients: {
       type: Array,
@@ -90,8 +92,9 @@ export default {
   },
   methods: {
     //тут я хочу проверить добавленное количество ингридиента
-    checkDraggable(ingredient) {
-      return ingredient;
+    checkIngredient() {
+    },
+    draggableIngredient() {
     },
   },
 };

@@ -23,8 +23,13 @@ export default {
       dataTransfer.effectAllowed = "move";
       dataTransfer.dropEffect = "move";
       dataTransfer.setData("payload", JSON.stringify(this.transferData));
-      //начали перетаскивание
-      console.log(dataTransfer);
+    },
+    onDragCheck() {
+      if (this.transferData) {
+        this.$emit("dropEnd", {
+          value: this.transferData.value,
+        });
+      }
     },
   },
 };

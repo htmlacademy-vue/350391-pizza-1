@@ -12,10 +12,21 @@
 
           <BuilderIngredientsSelector
             :ingredients="ingredients"
+            :checkedIngredients="checkedIngredients"
             :sauces="sauces"
           />
 
-          <BuilderPizzaView />
+          <BuilderPizzaView
+            @incrementCounter="incrementCounter"
+            @nameChange="nameChange"
+            :pizzaName="pizzaName"
+            :currentDough="currentDough"
+            :currentSauce="currentSauce"
+            :currentIngredients="currentIngredients"
+            :checkIngredients="checkIngredients"
+          />
+<!--          -->
+<!--          :totalPrice="totalPrice"-->
         </div>
       </form>
     </main>
@@ -28,13 +39,16 @@ import pizza from "@/static/pizza.json";
 import users from "@/static/users.json";
 
 import { normalizePizza } from "@/common/helpers";
+import { INIT_PIZZA } from "@/common/constants";
+
 import AppLayout from "@/layouts/AppLayout";
+
 import BuilderDoughSelector from "@/modules/builder/components/BuilderDoughSelector";
 import BuilderIngredientsSelector from "@/modules/builder/components/BuilderIngredientsSelector";
-//import BuilderPriceView from "@/modules/builder/components/BuilderPriceCounter";
 import BuilderSizeSelector from "@/modules/builder/components/BuilderSizeSelector";
 import BuilderPizzaView from "@/modules/builder/components/BuilderPizzaView";
 const resultPizza = normalizePizza(pizza);
+
 export default {
   name: "MainPage",
   components: {
@@ -43,16 +57,14 @@ export default {
     BuilderSizeSelector,
     BuilderIngredientsSelector,
     BuilderPizzaView,
-    //BuilderPriceView,
   },
   data() {
     return {
-      //Current pizza
-      //Во Vue нельзя динамически добавлять новые корневые реактивные свойства в уже существующий экземпляр.
-      // Можно добавить реактивное свойство во вложенные объекты, используя метод Vue.set(object, propertyName, value):
-      currentPizza: {
-        ingredient: 'kjk'
-      },
+      //Current Pizza
+      pizzaName: INIT_PIZZA.name,
+      currentDough: INIT_PIZZA.dough,
+      currentSize: INIT_PIZZA.size,
+      currentSauce: INIT_PIZZA.sauce,
       //Test data
       users,
       misc,
@@ -63,11 +75,32 @@ export default {
     };
   },
 
-  computed: {},
+  computed: {
+    currentIngredients() {
+      this.ingredients.forEach((ingredient) => {
+        ingredient.counter = 0;
+      });
+      return this.ingredients;
+    },
+    checkIngredients() {
+      return this.ingredients.filter((ingredient) => ingredient.counter);
+    },
+  },
 
   watch: {},
 
-  methods: {},
+  methods: {
+    nameChange(name) {
+      this.pizzaName = name;
+    },
+    incrementCounter(ingredient) {
+      console.log(ingredient);
+      const i = this.ingredients.findIndex(item => {
+        return item.value === ingredient.value;
+      });
+      if(i) {this.ingredients[i].counter++;}
+    },
+  },
 };
 </script>
 
