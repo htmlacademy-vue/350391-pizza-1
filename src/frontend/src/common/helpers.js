@@ -1,10 +1,27 @@
 import { MAP_PIZZA } from "@/common/constants";
 
-const normalize = (obj, modifier) => {
-  return {
-    ...obj,
-    value: obj.id ? modifier[obj.id] : "",
-  };
+const normalize = (obj, modifier, key) => {
+  switch (key) {
+    case "ingredients":
+      return {
+        ...obj,
+        value: obj.id ? modifier[obj.id] : "",
+        counter: 0,
+      };
+
+    case "dough":
+      return {
+        ...obj,
+        value: obj.id ? modifier[obj.id] : "",
+        class: obj.id ? modifier["class" + obj.id] : "",
+      };
+
+    default:
+      return {
+        ...obj,
+        value: obj.id ? modifier[obj.id] : "",
+      };
+  }
 };
 
 export const normalizePizza = (pizza) => {
@@ -14,7 +31,7 @@ export const normalizePizza = (pizza) => {
     const modifier = MAP_PIZZA[key];
     if (modifier) {
       normalizePizza[key] = pizzaElement.map((pizzaElement) =>
-        normalize(pizzaElement, modifier)
+        normalize(pizzaElement, modifier, key)
       );
     }
   }

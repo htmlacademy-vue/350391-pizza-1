@@ -13,13 +13,10 @@ export default {
       if (!dataTransfer) {
         return;
       }
-      console.log(dataTransfer);
+
       const addedIngredient = dataTransfer.getData("payload");
       if (addedIngredient) {
-        //const addedIngredient = JSON.parse(addedIngredient);
-        console.log(addedIngredient);
-        // Пытаюсь получить в родительском компоненту какой ингридиент перетащили
-        // Пока
+        const addedIngredient = JSON.parse(dataTransfer.getData("payload"));
         this.$emit("drop", addedIngredient);
       }
     },

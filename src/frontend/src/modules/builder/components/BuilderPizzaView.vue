@@ -1,79 +1,97 @@
 <template>
   <div class="content__pizza">
     <label class="input">
-      <span class="visually-hidden">Название пиццы</span>
+      <span class="visually-hidden">${ pizzaName }</span>
       <input
         type="text"
         name="pizza_name"
         placeholder="Введите название пиццы"
+        :value="pizzaName"
+        @input="$emit('nameChange', $event.target.value.trim())"
       />
     </label>
-    <AppDrop @drop="addIngredient($event)">
+    <AppDrop @drop="addedIngredient($event)">
       <div class="content__constructor">
-        <div class="pizza pizza--foundation--big-tomato">
+        <div :class="[`${pizzaFoundationClass}`]">
           <div class="pizza__wrapper">
-            <div v-if="notEmptyIngredients">
-              <div
-                v-for="ingredient in ingredients"
-                :key="ingredient"
-                class="pizza__filling"
-                :class="[`pizza__filling--${ingredient}`]"
-              ></div>
-            </div>
+            <div
+              v-for="ingredient in currentIngredients"
+              :key="ingredient.value"
+              class="pizza__filling"
+              :class="[`${getPizzaFillingClasses(ingredient)}`]"
+            ></div>
           </div>
         </div>
       </div>
     </AppDrop>
 
-    <div class="content__result">
-      <p>Итого: 0 ₽</p>
-      <button type="button" class="button button--disabled" disabled>
-        Готовьте!
-      </button>
-    </div>
+    <BuilderPriceCounter
+      :totalPrice="price"
+      :isDisabled="isSubmitDisabled"
+      @submit="$emit('submit', $event)"
+    />
   </div>
 </template>
 
 <script>
+import { MAP_PIZZA } from "@/common/constants";
+import BuilderPriceCounter from "@/modules/builder/components/BuilderPriceCounter";
 import AppDrop from "@/components/AppDrop";
-import Vue from "vue";
-//import AppDrag from "@/components/AppDrag";
-//import users from "@/static/users.json";
-//import misc from "@/static/misc.json";
 
 export default {
-  name: "BuilderPizzaView.vue",
-  components: { AppDrop },
+  name: "BuilderPizzaView",
+  components: { AppDrop, BuilderPriceCounter },
   props: {
-    currentPizza: {
-      type: Object,
+    pizzaName: {
+      type: String,
       required: true,
     },
-    ingredientsCounts: {
-      type: Map,
+    currentDough: {
+      type: [Number, String],
       required: true,
     },
-  },
-  data() {
-    return {};
+    currentSauce: {
+      type: [Number, String],
+      required: true,
+    },
+    currentIngredients: {
+      type: Array,
+      required: true,
+    },
+    price: {
+      type: Number,
+      required: true,
+    },
   },
   computed: {
-    notEmptyIngredients: function () {
-      return this.ingredientsCounts.size;
+    pizzaFoundationClass() {
+      return `pizza pizza--foundation--${MAP_PIZZA.dough[this.currentDough]}-${
+        MAP_PIZZA.sauces[this.currentSauce]
+      }`;
     },
-    ingredients: function () {
-      this.ingredientsCounts.keys();
-      return Array.from(this.ingredientsCounts.keys());
+    isSubmitDisabled() {
+      return !this.pizzaName || !this.currentIngredients.length || !this.price;
     },
   },
+
   methods: {
-    addIngredient(ingredient) {
-      //Считаем;
-      ingredient = JSON.parse(ingredient);
-      let counter = this.ingredientsCounts.get(ingredient.value);
-      counter = (counter === undefined) ? 1 : counter++;
-      Vue.set(this.ingredientsCounts,ingredient.value, counter);
-      console.log(this.ingredientsCounts);
+    getPizzaFillingClasses(ingredient) {
+      const valueClass = `pizza__filling--${ingredient.value}`;
+      const counter = ingredient.counter;
+      if (counter === 1) {
+        return valueClass;
+      } else if (counter > 0) {
+        //TODO constants
+        const CounterModifiers = {
+          2: "second",
+          3: "third",
+        };
+        const counterClass = `pizza__filling--${CounterModifiers[counter]}`;
+        return `${valueClass} ${counterClass}`;
+      }
+    },
+    addedIngredient(ingredient) {
+      this.$emit("incrementCounter", ingredient);
     },
   },
 };

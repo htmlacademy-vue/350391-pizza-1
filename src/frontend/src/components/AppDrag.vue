@@ -1,6 +1,6 @@
 <template>
   <div
-    :draggable="true"
+    :draggable="isDraggable"
     @dragstart.self="onDrag"
     @dragover.prevent
     @dragenter.prevent
@@ -23,8 +23,18 @@ export default {
       dataTransfer.effectAllowed = "move";
       dataTransfer.dropEffect = "move";
       dataTransfer.setData("payload", JSON.stringify(this.transferData));
-      //начали перетаскивание
-      console.log(dataTransfer);
+    },
+    onDragCheck() {
+      if (this.transferData) {
+        this.$emit("dropEnd", {
+          value: this.transferData.value,
+        });
+      }
+    },
+  },
+  computed: {
+    isDraggable() {
+      return this.transferData.counter < 3;
     },
   },
 };

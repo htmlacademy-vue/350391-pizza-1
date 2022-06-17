@@ -6,7 +6,7 @@
       <div class="sheet__content dough">
         <label
           v-for="dough in TypeOfDough"
-          :class="`dough__input dough__input--${dough.value}`"
+          :class="`dough__input dough__input--${dough.class}`"
           :key="dough.id"
         >
           <input
@@ -14,6 +14,7 @@
             name="dought"
             :value="`${dough.value}`"
             class="visually-hidden"
+            @change="selectedDough(dough)"
           />
           <b>{{ dough.name }}</b>
           <span>{{ dough.description }}</span>
@@ -30,6 +31,15 @@ export default {
     TypeOfDough: {
       type: Array,
       required: true,
+    },
+    currentDough: {
+      type: Number,
+      required: true,
+    },
+  },
+  methods: {
+    selectedDough(dough) {
+      this.$emit("selectedDough", dough.id);
     },
   },
 };

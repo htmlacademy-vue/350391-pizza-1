@@ -16,6 +16,7 @@
               type="radio"
               name="sauce"
               :value="`${sauce.value}`"
+              @change="selectedSauce(sauce)"
               checked
             />
             <span>{{ sauce.name }}</span>
@@ -32,8 +33,8 @@
               :key="ingredient.id"
             >
               <AppDrag
+                @dropEnd="checkIngredient($event)"
                 :transfer-data="ingredient"
-                :isDraggable="checkDraggable(ingredient)"
               >
                 <span :class="`filling filling--${ingredient.value}`">
                   {{ ingredient.name }}
@@ -78,8 +79,17 @@ import AppDrag from "@/components/AppDrag";
 export default {
   name: "BuilderIngredientsSelector.vue",
   components: { AppDrag },
+  data() {
+    return {
+      // draggableIngredient: true,
+    };
+  },
   props: {
     ingredients: {
+      type: Array,
+      required: true,
+    },
+    currentIngredients: {
       type: Array,
       required: true,
     },
@@ -88,10 +98,10 @@ export default {
       required: true,
     },
   },
+  computed: {},
   methods: {
-    //тут я хочу проверить добавленное количество ингридиента
-    checkDraggable(ingredient) {
-      return ingredient;
+    selectedSauce(sauce) {
+      this.$emit("selectedSauce", sauce.id);
     },
   },
 };

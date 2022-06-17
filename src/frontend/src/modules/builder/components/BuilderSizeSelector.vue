@@ -13,6 +13,7 @@
             type="radio"
             name="diameter"
             :value="`${size.value}`"
+            @change="selectedSize(size)"
             class="visually-hidden"
           />
           <span>{{ size.name }}</span>
@@ -29,6 +30,11 @@ export default {
     sizes: {
       type: Array,
       required: true,
+    },
+  },
+  methods: {
+    selectedSize(size) {
+      this.$emit("selectedSize", size.id);
     },
   },
 };

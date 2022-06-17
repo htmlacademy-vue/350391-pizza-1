@@ -6,19 +6,29 @@
         <div class="content__wrapper">
           <h1 class="title title--big">Конструктор пиццы</h1>
 
-          <BuilderDoughSelector :TypeOfDough="TypeOfDough" />
+          <BuilderDoughSelector
+            :TypeOfDough="TypeOfDough"
+            :currentDough="currentDough"
+            @selectedDough="selectedDough"
+          />
 
-          <BuilderSizeSelector :sizes="sizes" />
+          <BuilderSizeSelector :sizes="sizes" @selectedSize="selectedSize" />
 
           <BuilderIngredientsSelector
             :ingredients="ingredients"
+            :currentIngredients="currentIngredients"
             :sauces="sauces"
-            :currentPizza="currentPizza"
+            @selectedSauce="selectedSauce"
           />
 
           <BuilderPizzaView
-            :currentPizza="currentPizza"
-            :ingredientsCounts="ingredientsCounts"
+            @incrementCounter="incrementCounter"
+            @nameChange="nameChange"
+            :pizzaName="pizzaName"
+            :currentDough="currentDough"
+            :currentSauce="currentSauce"
+            :currentIngredients="currentIngredients"
+            :price="price"
           />
         </div>
       </form>
@@ -32,13 +42,16 @@ import pizza from "@/static/pizza.json";
 import users from "@/static/users.json";
 
 import { normalizePizza } from "@/common/helpers";
+import { INIT_PIZZA } from "@/common/constants";
+
 import AppLayout from "@/layouts/AppLayout";
+
 import BuilderDoughSelector from "@/modules/builder/components/BuilderDoughSelector";
 import BuilderIngredientsSelector from "@/modules/builder/components/BuilderIngredientsSelector";
-//import BuilderPriceView from "@/modules/builder/components/BuilderPriceCounter";
 import BuilderSizeSelector from "@/modules/builder/components/BuilderSizeSelector";
 import BuilderPizzaView from "@/modules/builder/components/BuilderPizzaView";
 const resultPizza = normalizePizza(pizza);
+console.log(resultPizza);
 export default {
   name: "MainPage",
   components: {
@@ -47,15 +60,14 @@ export default {
     BuilderSizeSelector,
     BuilderIngredientsSelector,
     BuilderPizzaView,
-    //BuilderPriceView,
   },
   data() {
     return {
-      //Current pizza
-      //Во Vue нельзя динамически добавлять новые корневые реактивные свойства в уже существующий экземпляр.
-      // Можно добавить реактивное свойство во вложенные объекты, используя метод Vue.set(object, propertyName, value):
-      currentPizza: {},
-      ingredientsCounts: new Map(),
+      //Current Pizza
+      pizzaName: INIT_PIZZA.name,
+      currentDough: INIT_PIZZA.dough,
+      currentSize: INIT_PIZZA.size,
+      currentSauce: INIT_PIZZA.sauce,
       //Test data
       users,
       misc,
@@ -66,11 +78,54 @@ export default {
     };
   },
 
-  computed: {},
+  computed: {
+    currentIngredients() {
+      return this.ingredients.filter((ingredient) => ingredient.counter);
+    },
+    price() {
+      const ingredientsPrice = this.ingredients
+        .map((ingredient) => ingredient.price * ingredient.counter)
+        .reduce((sum, ingredient) => sum + ingredient, 0);
+      const multiplier = this.sizes.find(
+        (item) => item.id === this.currentSize
+      ).multiplier;
+
+      const doughPrice = this.TypeOfDough.find(
+        (item) => item.id === this.currentDough
+      ).price;
+      const saucePrice = this.sauces.find(
+        (item) => item.id === this.currentSauce
+      ).price;
+      console.log(ingredientsPrice);
+      console.log((doughPrice + saucePrice + ingredientsPrice) * multiplier);
+      return (doughPrice + saucePrice + ingredientsPrice) * multiplier;
+    },
+  },
 
   watch: {},
 
-  methods: {},
+  methods: {
+    nameChange(name) {
+      this.pizzaName = name;
+    },
+    selectedDough(typeOfDough) {
+      this.currentDough = typeOfDough;
+    },
+    selectedSauce(sauce) {
+      this.currentSauce = sauce;
+    },
+    selectedSize(size) {
+      this.currentSize = size;
+    },
+    incrementCounter(ingredient) {
+      const i = this.ingredients.findIndex((item) => {
+        return item.value === ingredient.value;
+      });
+      if (i && this.ingredients[i].counter < INIT_PIZZA.max) {
+        this.ingredients[i].counter++;
+      }
+    },
+  },
 };
 </script>
 
