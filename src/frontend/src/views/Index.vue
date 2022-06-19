@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <AppLayout />
+    <AppLayout :price="totalPrice" />
     <main class="content">
       <form action="#" method="post">
         <div class="content__wrapper">
@@ -19,16 +19,19 @@
             :currentIngredients="currentIngredients"
             :sauces="sauces"
             @selectedSauce="selectedSauce"
+            @changeCounter="changeCounter"
           />
 
           <BuilderPizzaView
-            @incrementCounter="incrementCounter"
+            @incrementCounter="changeCounter"
             @nameChange="nameChange"
+            @submit="submit"
             :pizzaName="pizzaName"
             :currentDough="currentDough"
             :currentSauce="currentSauce"
             :currentIngredients="currentIngredients"
             :price="price"
+            :totalPrice="totalPrice"
           />
         </div>
       </form>
@@ -50,8 +53,9 @@ import BuilderDoughSelector from "@/modules/builder/components/BuilderDoughSelec
 import BuilderIngredientsSelector from "@/modules/builder/components/BuilderIngredientsSelector";
 import BuilderSizeSelector from "@/modules/builder/components/BuilderSizeSelector";
 import BuilderPizzaView from "@/modules/builder/components/BuilderPizzaView";
+
 const resultPizza = normalizePizza(pizza);
-console.log(resultPizza);
+
 export default {
   name: "MainPage",
   components: {
@@ -75,6 +79,7 @@ export default {
       sauces: resultPizza.sauces,
       TypeOfDough: resultPizza.dough,
       sizes: resultPizza.sizes,
+      totalPrice: 0,
     };
   },
 
@@ -96,8 +101,6 @@ export default {
       const saucePrice = this.sauces.find(
         (item) => item.id === this.currentSauce
       ).price;
-      console.log(ingredientsPrice);
-      console.log((doughPrice + saucePrice + ingredientsPrice) * multiplier);
       return (doughPrice + saucePrice + ingredientsPrice) * multiplier;
     },
   },
@@ -117,13 +120,29 @@ export default {
     selectedSize(size) {
       this.currentSize = size;
     },
-    incrementCounter(ingredient) {
+    changeCounter(ingredient, increase) {
+      console.log(increase);
       const i = this.ingredients.findIndex((item) => {
         return item.value === ingredient.value;
       });
-      if (i && this.ingredients[i].counter < INIT_PIZZA.max) {
-        this.ingredients[i].counter++;
+      if (i) {
+        if (increase && this.ingredients[i].counter < INIT_PIZZA.max) {
+          this.ingredients[i].counter++;
+          this.ingredients[i].disabledUp =
+            this.ingredients[i].counter === INIT_PIZZA.max;
+          console.log("up");
+          console.log(this.ingredients[i].disabledUp);
+        } else if (this.ingredients[i].counter > 0 && !increase) {
+          this.ingredients[i].counter--;
+          this.ingredients[i].disabledDown = this.ingredients[i].counter === 0;
+          console.log("down");
+          console.log(this.ingredients[i].disabledDown);
+        }
       }
+    },
+    submit() {
+      //может есть более правильный вариант, что бы не прописывать в каждом дочернем компоненте emit?
+      this.totalPrice = this.price;
     },
   },
 };

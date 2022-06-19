@@ -11,7 +11,7 @@
         >
           <input
             type="radio"
-            name="dought"
+            name="dough"
             :value="`${dough.value}`"
             class="visually-hidden"
             @change="selectedDough(dough)"

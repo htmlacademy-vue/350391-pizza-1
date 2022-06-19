@@ -44,11 +44,9 @@
               <div class="counter counter--orange ingredients__counter">
                 <button
                   type="button"
-                  class="
-                    counter__button
-                    counter__button--disabled
-                    counter__button--minus
-                  "
+                  class="counter__button counter__button--minus"
+                  :class="disabledClass(ingredient.disabledDown)"
+                  @click="changeCounter(ingredient, false)"
                 >
                   <span class="visually-hidden">Меньше</span>
                 </button>
@@ -56,11 +54,13 @@
                   type="text"
                   name="counter"
                   class="counter__input"
-                  value="0"
+                  :value="`${ingredient.counter}`"
                 />
                 <button
                   type="button"
                   class="counter__button counter__button--plus"
+                  :class="disabledClass(ingredient.disabledUp)"
+                  @click="changeCounter(ingredient, true)"
                 >
                   <span class="visually-hidden">Больше</span>
                 </button>
@@ -80,9 +80,7 @@ export default {
   name: "BuilderIngredientsSelector.vue",
   components: { AppDrag },
   data() {
-    return {
-      // draggableIngredient: true,
-    };
+    return {};
   },
   props: {
     ingredients: {
@@ -102,6 +100,14 @@ export default {
   methods: {
     selectedSauce(sauce) {
       this.$emit("selectedSauce", sauce.id);
+    },
+    changeCounter(ingredient, increase) {
+      this.$emit("changeCounter", ingredient, increase);
+    },
+    disabledClass(ingredientDisabled) {
+      if (ingredientDisabled) {
+        return "counter__button--disabled";
+      }
     },
   },
 };

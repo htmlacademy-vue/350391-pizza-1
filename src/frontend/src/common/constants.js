@@ -46,8 +46,8 @@ export const DATA_TRANSFER_PAYLOAD = "payload";
 
 export const INIT_PIZZA = {
   dough: 1,
-  sauce: 1,
+  sauce: 2,
   size: 2,
-  name: "Ваша пицца",
+  name: "",
   max: 3,
 };

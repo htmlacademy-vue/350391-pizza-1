@@ -7,6 +7,8 @@ const normalize = (obj, modifier, key) => {
         ...obj,
         value: obj.id ? modifier[obj.id] : "",
         counter: 0,
+        disabledUp: true,
+        disableDown: false,
       };
 
     case "dough":

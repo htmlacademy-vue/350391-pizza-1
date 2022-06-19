@@ -10,18 +10,27 @@
         />
       </a>
     </div>
-    <div class="header__cart">
-      <a href="cart.html">0 ₽</a>
-    </div>
-    <div class="header__user">
-      <a href="#" class="header__login"><span>Войти</span></a>
-    </div>
+    <Cart :price="price" />
+
+    <Authorization />
   </header>
 </template>
 
 <script>
+import Cart from "@/modules/common/components/Cart";
+import Authorization from "@/modules/common/components/Authorization";
 export default {
   name: "AppLayout",
+  components: {
+    Cart,
+    Authorization,
+  },
+  props: {
+    price: {
+      type: Number,
+      required: true,
+    },
+  },
 };
 </script>
 

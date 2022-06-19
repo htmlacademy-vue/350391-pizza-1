@@ -1,11 +1,11 @@
 <template>
   <div class="content__result">
-    <p>Итого: {{ totalPrice }} ₽</p>
+    <p>Итого: {{ price }} ₽</p>
     <button
       type="button"
       class="button"
       :disabled="isDisabled"
-      @click.prevent="$emit('submit', $event)"
+      @click.prevent="submit"
     >
       Готовьте!
     </button>
@@ -15,14 +15,22 @@
 <script>
 export default {
   name: "BuilderPriceCounter",
+  data() {
+    return {};
+  },
   props: {
-    totalPrice: {
+    price: {
       type: Number,
       required: true,
     },
     isDisabled: {
       type: Boolean,
       required: true,
+    },
+  },
+  methods: {
+    submit() {
+      this.$emit("submit");
     },
   },
 };

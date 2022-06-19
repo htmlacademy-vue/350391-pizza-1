@@ -26,9 +26,10 @@
     </AppDrop>
 
     <BuilderPriceCounter
-      :totalPrice="price"
+      @submit="submit"
+      :price="price"
+      :totalPrice="totalPrice"
       :isDisabled="isSubmitDisabled"
-      @submit="$emit('submit', $event)"
     />
   </div>
 </template>
@@ -62,6 +63,10 @@ export default {
       type: Number,
       required: true,
     },
+    totalPrice: {
+      type: Number,
+      required: true,
+    },
   },
   computed: {
     pizzaFoundationClass() {
@@ -91,7 +96,10 @@ export default {
       }
     },
     addedIngredient(ingredient) {
-      this.$emit("incrementCounter", ingredient);
+      this.$emit("incrementCounter", ingredient, true);
+    },
+    submit() {
+      this.$emit("submit");
     },
   },
 };
