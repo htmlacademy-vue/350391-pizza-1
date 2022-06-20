@@ -28,8 +28,10 @@ const SAUCES_VALUE = {
 };
 
 const DOUGH_MODIFIER = {
-  1: "light",
-  2: "large",
+  1: "small",
+  2: "big",
+  class1: "light",
+  class2: "large",
 };
 
 export const MAP_PIZZA = {
@@ -37,4 +39,16 @@ export const MAP_PIZZA = {
   sizes: SIZES_MODIFIER,
   sauces: SAUCES_VALUE,
   dough: DOUGH_MODIFIER,
+};
+
+export const MOVE = "move";
+export const DATA_TRANSFER_PAYLOAD = "payload";
+
+export const INIT_PIZZA = {
+  dough: 1,
+  sauce: 2,
+  size: 2,
+  name: "",
+  max: 3,
+  min: 0,
 };
