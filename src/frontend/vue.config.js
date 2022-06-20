@@ -28,8 +28,8 @@ module.exports = {
     },
 
     overlay: {
-      warnings: false,
-      errors: false,
+      warnings: true,
+      errors: true,
     },
   },
 };

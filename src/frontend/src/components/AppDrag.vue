@@ -10,6 +10,7 @@
 </template>
 
 <script>
+import { INIT_PIZZA } from "@/common/constants";
 export default {
   name: "AppDrag",
   props: {
@@ -24,17 +25,10 @@ export default {
       dataTransfer.dropEffect = "move";
       dataTransfer.setData("payload", JSON.stringify(this.transferData));
     },
-    onDragCheck() {
-      if (this.transferData) {
-        this.$emit("dropEnd", {
-          value: this.transferData.value,
-        });
-      }
-    },
   },
   computed: {
     isDraggable() {
-      return this.transferData.counter < 3;
+      return this.transferData.counter < INIT_PIZZA.max;
     },
   },
 };

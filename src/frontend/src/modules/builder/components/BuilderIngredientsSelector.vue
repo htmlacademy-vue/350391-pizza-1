@@ -32,10 +32,7 @@
               v-for="ingredient in ingredients"
               :key="ingredient.id"
             >
-              <AppDrag
-                @dropEnd="checkIngredient($event)"
-                :transfer-data="ingredient"
-              >
+              <AppDrag :transfer-data="ingredient">
                 <span :class="`filling filling--${ingredient.value}`">
                   {{ ingredient.name }}
                 </span>
@@ -45,7 +42,7 @@
                 <button
                   type="button"
                   class="counter__button counter__button--minus"
-                  :class="disabledClass(ingredient.disabledDown)"
+                  :class="`${minusDisabled(ingredient)}`"
                   @click="changeCounter(ingredient, false)"
                 >
                   <span class="visually-hidden">Меньше</span>
@@ -59,7 +56,7 @@
                 <button
                   type="button"
                   class="counter__button counter__button--plus"
-                  :class="disabledClass(ingredient.disabledUp)"
+                  :class="`${plusDisabled(ingredient)}`"
                   @click="changeCounter(ingredient, true)"
                 >
                   <span class="visually-hidden">Больше</span>
@@ -75,6 +72,7 @@
 
 <script>
 import AppDrag from "@/components/AppDrag";
+import { INIT_PIZZA } from "@/common/constants";
 
 export default {
   name: "BuilderIngredientsSelector.vue",
@@ -104,10 +102,15 @@ export default {
     changeCounter(ingredient, increase) {
       this.$emit("changeCounter", ingredient, increase);
     },
-    disabledClass(ingredientDisabled) {
-      if (ingredientDisabled) {
-        return "counter__button--disabled";
-      }
+    minusDisabled(ingredient) {
+      return ingredient.counter === INIT_PIZZA.min
+        ? "counter__button--disabled"
+        : "";
+    },
+    plusDisabled(ingredient) {
+      return ingredient.counter === INIT_PIZZA.max
+        ? "counter__button--disabled"
+        : "";
     },
   },
 };

@@ -121,28 +121,31 @@ export default {
       this.currentSize = size;
     },
     changeCounter(ingredient, increase) {
-      console.log(increase);
       const i = this.ingredients.findIndex((item) => {
         return item.value === ingredient.value;
       });
-      if (i) {
+
+      if (i !== -1) {
         if (increase && this.ingredients[i].counter < INIT_PIZZA.max) {
           this.ingredients[i].counter++;
-          this.ingredients[i].disabledUp =
-            this.ingredients[i].counter === INIT_PIZZA.max;
-          console.log("up");
-          console.log(this.ingredients[i].disabledUp);
-        } else if (this.ingredients[i].counter > 0 && !increase) {
+        } else if (this.ingredients[i].counter > INIT_PIZZA.min && !increase) {
           this.ingredients[i].counter--;
-          this.ingredients[i].disabledDown = this.ingredients[i].counter === 0;
-          console.log("down");
-          console.log(this.ingredients[i].disabledDown);
         }
       }
+    },
+    resetPizza() {
+      this.currentDough = INIT_PIZZA.dough;
+      this.currentSauce = INIT_PIZZA.sauce;
+      this.currentSize = INIT_PIZZA.size;
+      this.pizzaName = INIT_PIZZA.name;
+      this.ingredients.forEach((ingredient) => {
+        ingredient.counter = 0;
+      });
     },
     submit() {
       //может есть более правильный вариант, что бы не прописывать в каждом дочернем компоненте emit?
       this.totalPrice = this.price;
+      this.resetPizza();
     },
   },
 };

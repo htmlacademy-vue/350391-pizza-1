@@ -50,4 +50,5 @@ export const INIT_PIZZA = {
   size: 2,
   name: "",
   max: 3,
+  min: 0,
 };
