@@ -1,42 +1,40 @@
 <template>
-  <div id="app">
-    <AppLayout :price="totalPrice" />
-    <main class="content">
-      <form action="#" method="post">
-        <div class="content__wrapper">
-          <h1 class="title title--big">Конструктор пиццы</h1>
+  <main class="content">
+    <form action="#" method="post">
+      <div class="content__wrapper">
+        <h1 class="title title--big">Конструктор пиццы</h1>
 
-          <BuilderDoughSelector
-            :TypeOfDough="TypeOfDough"
-            :currentDough="currentDough"
-            @selectedDough="selectedDough"
-          />
+        <BuilderDoughSelector
+          :TypeOfDough="TypeOfDough"
+          :currentDough="currentDough"
+          @selectedDough="selectedDough"
+        />
 
-          <BuilderSizeSelector :sizes="sizes" @selectedSize="selectedSize" />
+        <BuilderSizeSelector :sizes="sizes" @selectedSize="selectedSize" />
 
-          <BuilderIngredientsSelector
-            :ingredients="ingredients"
-            :currentIngredients="currentIngredients"
-            :sauces="sauces"
-            @selectedSauce="selectedSauce"
-            @changeCounter="changeCounter"
-          />
+        <BuilderIngredientsSelector
+          :ingredients="ingredients"
+          :currentIngredients="currentIngredients"
+          :sauces="sauces"
+          @selectedSauce="selectedSauce"
+          @changeCounter="changeCounter"
+        />
 
-          <BuilderPizzaView
-            @incrementCounter="changeCounter"
-            @nameChange="nameChange"
-            @submit="submit"
-            :pizzaName="pizzaName"
-            :currentDough="currentDough"
-            :currentSauce="currentSauce"
-            :currentIngredients="currentIngredients"
-            :price="price"
-            :totalPrice="totalPrice"
-          />
-        </div>
-      </form>
-    </main>
-  </div>
+        <BuilderPizzaView
+          @incrementCounter="changeCounter"
+          @nameChange="nameChange"
+          @submit="submit"
+          :pizzaName="pizzaName"
+          :currentDough="currentDough"
+          :currentSauce="currentSauce"
+          :currentIngredients="currentIngredients"
+          :price="price"
+          :totalPrice="totalPrice"
+        />
+      </div>
+    </form>
+    <router-view v-if="!user" @login="$emit('login')"></router-view>
+  </main>
 </template>
 
 <script>
@@ -47,19 +45,17 @@ import users from "@/static/users.json";
 import { normalizePizza } from "@/common/helpers";
 import { INIT_PIZZA } from "@/common/constants";
 
-import AppLayout from "@/layouts/AppLayout";
-
 import BuilderDoughSelector from "@/modules/builder/components/BuilderDoughSelector";
 import BuilderIngredientsSelector from "@/modules/builder/components/BuilderIngredientsSelector";
 import BuilderSizeSelector from "@/modules/builder/components/BuilderSizeSelector";
 import BuilderPizzaView from "@/modules/builder/components/BuilderPizzaView";
 
 const resultPizza = normalizePizza(pizza);
+let idPizza = 0;
 
 export default {
   name: "MainPage",
   components: {
-    AppLayout,
     BuilderDoughSelector,
     BuilderSizeSelector,
     BuilderIngredientsSelector,
@@ -80,7 +76,14 @@ export default {
       TypeOfDough: resultPizza.dough,
       sizes: resultPizza.sizes,
       totalPrice: 0,
+      isLoginShowed: false,
     };
+  },
+  props: {
+    user: {
+      type: Object,
+      default: null,
+    },
   },
 
   computed: {
@@ -143,8 +146,17 @@ export default {
       });
     },
     submit() {
-      //может есть более правильный вариант, что бы не прописывать в каждом дочернем компоненте emit?
-      this.totalPrice = this.price;
+      const newPizza = {
+        id: idPizza++,
+        dough: this.currentDough,
+        sauce: this.currentSauce,
+        size: this.currentSize,
+        ingredients: this.currentIngredients,
+        name: this.pizzaName,
+        price: this.totalPrice,
+        count: 1,
+      };
+      this.$emit("addNewPizza", newPizza);
       this.resetPizza();
     },
   },

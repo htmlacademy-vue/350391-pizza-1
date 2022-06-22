@@ -37,3 +37,19 @@ export const normalizePizza = (pizza) => {
   }
   return normalizePizza;
 };
+
+export const normalizeAddons = (addons) => {
+  addons.forEach((addon) => (addon.counter = 0));
+  console.log(addons);
+  return addons;
+};
+
+export const calculateSum = (items) => {
+  console.log(items);
+  if (!items.length) {
+    return 0;
+  }
+  return items
+    .map((it) => it.price * it.counter)
+    .reduce((acc, it) => acc + it, 0);
+};

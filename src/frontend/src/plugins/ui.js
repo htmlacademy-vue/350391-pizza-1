@@ -1,0 +1,11 @@
+import Vue from "vue";
+import AppLayout from "@/layouts/AppLayout";
+import AppLayoutMain from "@/layouts/AppLayoutMain";
+import AppDrag from "@/components/AppDrag";
+import AppDrop from "@/components/AppDrop";
+import Logo from "@/components/Logo";
+Vue.component("AppLayout", AppLayout);
+Vue.component("AppLayoutMain", AppLayoutMain);
+Vue.component("AppDrag", AppDrag);
+Vue.component("AppDrop", AppDrop);
+Vue.component("Logo", Logo);

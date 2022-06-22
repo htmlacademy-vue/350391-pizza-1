@@ -1,34 +1,34 @@
 <template>
-  <header class="header">
-    <div class="header__logo">
-      <a href="index.html" class="logo">
-        <img
-          src="@/assets/img/logo.svg"
-          alt="V!U!E! Pizza logo"
-          width="90"
-          height="40"
-        />
-      </a>
-    </div>
-    <Cart :price="price" />
-
-    <Authorization />
-  </header>
+  <component
+    :is="layout"
+    :user="user"
+    :finalTotalPrice="finalTotalPrice"
+    @logout="$emit('logout')"
+    @addNewOrder="$emit('addNewOrder', $event)"
+  >
+    <slot />
+  </component>
 </template>
 
 <script>
-import Cart from "@/modules/common/components/Cart";
-import Authorization from "@/modules/common/components/Authorization";
+const mainLayout = "AppLayoutMain";
+
 export default {
   name: "AppLayout",
-  components: {
-    Cart,
-    Authorization,
-  },
   props: {
-    price: {
+    user: {
+      type: Object,
+      default: null,
+    },
+    finalTotalPrice: {
       type: Number,
       required: true,
+    },
+  },
+  computed: {
+    layout() {
+      const layout = this.$route.meta.layout || mainLayout;
+      return () => import(`@/layouts/${layout}.vue`);
     },
   },
 };

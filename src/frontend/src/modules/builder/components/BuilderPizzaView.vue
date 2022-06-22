@@ -28,7 +28,7 @@
     <BuilderPriceCounter
       @submit="submit"
       :price="price"
-      :totalPrice="totalPrice"
+      :totalPrice="price"
       :isDisabled="isSubmitDisabled"
     />
   </div>
