@@ -37,31 +37,10 @@
                   {{ ingredient.name }}
                 </span>
               </AppDrag>
-
-              <div class="counter counter--orange ingredients__counter">
-                <button
-                  type="button"
-                  class="counter__button counter__button--minus"
-                  :class="`${minusDisabled(ingredient)}`"
-                  @click="changeCounter(ingredient, false)"
-                >
-                  <span class="visually-hidden">Меньше</span>
-                </button>
-                <input
-                  type="text"
-                  name="counter"
-                  class="counter__input"
-                  :value="`${ingredient.counter}`"
-                />
-                <button
-                  type="button"
-                  class="counter__button counter__button--plus"
-                  :class="`${plusDisabled(ingredient)}`"
-                  @click="changeCounter(ingredient, true)"
-                >
-                  <span class="visually-hidden">Больше</span>
-                </button>
-              </div>
+              <IngredientsCounter
+                :counter="ingredient.counter"
+                @update="changeCounter($event, ingredient.value)"
+              />
             </li>
           </ul>
         </div>
@@ -71,12 +50,15 @@
 </template>
 
 <script>
-import { INIT_PIZZA } from "@/common/constants";
+import IngredientsCounter from "./IngredientsCounter";
 
 export default {
   name: "BuilderIngredientsSelector.vue",
   data() {
     return {};
+  },
+  components: {
+    IngredientsCounter,
   },
   props: {
     ingredients: {
@@ -97,18 +79,8 @@ export default {
     selectedSauce(sauce) {
       this.$emit("selectedSauce", sauce.id);
     },
-    changeCounter(ingredient, increase) {
-      this.$emit("changeCounter", ingredient, increase);
-    },
-    minusDisabled(ingredient) {
-      return ingredient.counter === INIT_PIZZA.min
-        ? "counter__button--disabled"
-        : "";
-    },
-    plusDisabled(ingredient) {
-      return ingredient.counter === INIT_PIZZA.max
-        ? "counter__button--disabled"
-        : "";
+    changeCounter(counter, value) {
+      this.$emit("changeCounter", counter, value);
     },
   },
 };

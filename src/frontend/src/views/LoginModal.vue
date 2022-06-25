@@ -1,8 +1,6 @@
 <template>
   <Modal>
-    <Login
-    @login="$emit('login')"
-    />
+    <Login @login="$emit('login')" />
   </Modal>
 </template>
 <script>

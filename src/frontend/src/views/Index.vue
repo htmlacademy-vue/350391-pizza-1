@@ -122,17 +122,14 @@ export default {
     selectedSize(size) {
       this.currentSize = size;
     },
-    changeCounter(ingredient, increase) {
-      const i = this.ingredients.findIndex((item) => {
-        return item.value === ingredient.value;
-      });
+    changeCounter(counter, value) {
+      console.log(counter);
 
+      const i = this.ingredients.findIndex((item) => {
+        return item.value === value;
+      });
       if (i !== -1) {
-        if (increase && this.ingredients[i].counter < INIT_PIZZA.max) {
-          this.ingredients[i].counter++;
-        } else if (this.ingredients[i].counter > INIT_PIZZA.min && !increase) {
-          this.ingredients[i].counter--;
-        }
+        this.ingredients[i].counter = counter;
       }
     },
     resetPizza() {

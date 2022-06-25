@@ -90,7 +90,7 @@ export default {
       }
     },
     addedIngredient(ingredient) {
-      this.$emit("incrementCounter", ingredient, true);
+      this.$emit("incrementCounter", ingredient.counter + 1, ingredient.value );
     },
     submit() {
       this.$emit("submit");

@@ -7,11 +7,12 @@
 
   <div v-else key="header-with-user" class="header__user">
     <router-link to="/profile">
-      <Avatar :user="user" :width=32 :height=32 />
+      <Avatar :user="user" :width="32" :height="32" />
       <span>{{ user.name }}</span>
     </router-link>
     <a href="#" class="header__logout" @click.prevent="$emit('logout')"
-      ><span>Выйти</span></a>
+      ><span>Выйти</span></a
+    >
   </div>
 </template>
 
