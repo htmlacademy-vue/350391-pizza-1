@@ -71,12 +71,10 @@
 </template>
 
 <script>
-import AppDrag from "@/components/AppDrag";
 import { INIT_PIZZA } from "@/common/constants";
 
 export default {
   name: "BuilderIngredientsSelector.vue",
-  components: { AppDrag },
   data() {
     return {};
   },

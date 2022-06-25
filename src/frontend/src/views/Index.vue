@@ -29,7 +29,6 @@
           :currentSauce="currentSauce"
           :currentIngredients="currentIngredients"
           :price="price"
-          :totalPrice="totalPrice"
         />
       </div>
     </form>
@@ -75,7 +74,7 @@ export default {
       sauces: resultPizza.sauces,
       TypeOfDough: resultPizza.dough,
       sizes: resultPizza.sizes,
-      totalPrice: 0,
+      totalPrice: this.totalPrice,
       isLoginShowed: false,
     };
   },
@@ -153,8 +152,8 @@ export default {
         size: this.currentSize,
         ingredients: this.currentIngredients,
         name: this.pizzaName,
-        price: this.totalPrice,
-        count: 1,
+        price: this.price,
+        counter: 1,
       };
       this.$emit("addNewPizza", newPizza);
       this.resetPizza();

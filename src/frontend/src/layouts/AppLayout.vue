@@ -11,7 +11,7 @@
 </template>
 
 <script>
-const mainLayout = "AppLayoutMain";
+const mainLayout = "AppLayoutDefault";
 
 export default {
   name: "AppLayout",

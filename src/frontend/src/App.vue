@@ -15,6 +15,8 @@ import misc from "@/static/misc.json";
 import pizza from "@/static/pizza.json";
 import users from "@/static/users.json";
 
+import { ADDRESS } from "./common/constants";
+
 import {
   normalizePizza,
   normalizeAddons,
@@ -22,30 +24,21 @@ import {
 } from "@/common/helpers";
 
 const resultPizza = normalizePizza(pizza);
+
 console.log(users);
-
 console.log(resultPizza);
-
-const mockAddress = {
-  id: 1,
-  name: "Дом",
-  street: "Невский пр.",
-  house: "22",
-  apartment: "46",
-  comment: "Позвоните, пожалуйста, от проходной",
-};
 
 export default {
   name: "App",
   data() {
     return {
-      user: null,
+      user: users[0],
       cart: {
         pizzas: [],
         addons: normalizeAddons(misc),
       },
       orders: [],
-      addresses: [mockAddress],
+      addresses: [ADDRESS],
     };
   },
   computed: {
@@ -61,17 +54,17 @@ export default {
   },
   methods: {
     login() {
-      this.$router.push({ name: "MainPage" });
+      this.user = users[0];
+      this.$router.push({ name: "Profile" });
     },
     logout() {
       this.user = null;
-      this.$router.push({ name: "SignIn" });
+      this.$router.push({ name: "Login" });
     },
     addNewPizza(pizza) {
       this.cart.pizzas.push(pizza);
     },
     addNewOrder() {},
-
   },
 };
 </script>

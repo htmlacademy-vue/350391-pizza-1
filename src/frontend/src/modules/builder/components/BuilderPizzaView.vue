@@ -1,7 +1,7 @@
 <template>
   <div class="content__pizza">
     <label class="input">
-      <span class="visually-hidden">${ pizzaName }</span>
+      <span class="visually-hidden">{{ pizzaName }}</span>
       <input
         type="text"
         name="pizza_name"
@@ -28,7 +28,6 @@
     <BuilderPriceCounter
       @submit="submit"
       :price="price"
-      :totalPrice="price"
       :isDisabled="isSubmitDisabled"
     />
   </div>
@@ -37,11 +36,10 @@
 <script>
 import { MAP_PIZZA } from "@/common/constants";
 import BuilderPriceCounter from "@/modules/builder/components/BuilderPriceCounter";
-import AppDrop from "@/components/AppDrop";
 
 export default {
   name: "BuilderPizzaView",
-  components: { AppDrop, BuilderPriceCounter },
+  components: { BuilderPriceCounter },
   props: {
     pizzaName: {
       type: String,
@@ -60,10 +58,6 @@ export default {
       required: true,
     },
     price: {
-      type: Number,
-      required: true,
-    },
-    totalPrice: {
       type: Number,
       required: true,
     },

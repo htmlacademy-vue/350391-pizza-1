@@ -40,12 +40,10 @@ export const normalizePizza = (pizza) => {
 
 export const normalizeAddons = (addons) => {
   addons.forEach((addon) => (addon.counter = 0));
-  console.log(addons);
   return addons;
 };
 
 export const calculateSum = (items) => {
-  console.log(items);
   if (!items.length) {
     return 0;
   }
@@ -53,3 +51,12 @@ export const calculateSum = (items) => {
     .map((it) => it.price * it.counter)
     .reduce((acc, it) => acc + it, 0);
 };
+
+export const avatar = (avatarUrl = "") => ({
+  webp: avatarUrl.replace(/.jpg/gi, ".webp"),
+  webp2x: avatarUrl.replace(/.jpg/gi, "@2x.webp"),
+  webp4x: avatarUrl.replace(/.jpg/gi, "@4x.webp"),
+  jpg: avatarUrl,
+  jpg2x: avatarUrl.replace(/.jpg/gi, "@2x.jpg"),
+  jpg4x: avatarUrl.replace(/.jpg/gi, "@4x.jpg"),
+});

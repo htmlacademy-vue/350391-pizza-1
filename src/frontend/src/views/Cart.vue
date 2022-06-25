@@ -45,9 +45,7 @@
               />
               <button
                 type="button"
-                class="
-                  counter__button counter__button--plus counter__button--orange
-                "
+                class="counter__button counter__button--plus counter__button--orange"
               >
                 <span class="visually-hidden">Больше</span>
               </button>
@@ -98,9 +96,7 @@
               />
               <button
                 type="button"
-                class="
-                  counter__button counter__button--plus counter__button--orange
-                "
+                class="counter__button counter__button--plus counter__button--orange"
               >
                 <span class="visually-hidden">Больше</span>
               </button>
@@ -145,11 +141,7 @@
                   />
                   <button
                     type="button"
-                    class="
-                      counter__button
-                      counter__button--plus
-                      counter__button--orange
-                    "
+                    class="counter__button counter__button--plus counter__button--orange"
                   >
                     <span class="visually-hidden">Больше</span>
                   </button>
@@ -187,11 +179,7 @@
                   />
                   <button
                     type="button"
-                    class="
-                      counter__button
-                      counter__button--plus
-                      counter__button--orange
-                    "
+                    class="counter__button counter__button--plus counter__button--orange"
                   >
                     <span class="visually-hidden">Больше</span>
                   </button>
@@ -229,11 +217,7 @@
                   />
                   <button
                     type="button"
-                    class="
-                      counter__button
-                      counter__button--plus
-                      counter__button--orange
-                    "
+                    class="counter__button counter__button--plus counter__button--orange"
                   >
                     <span class="visually-hidden">Больше</span>
                   </button>
@@ -302,7 +286,7 @@
         Перейти к конструктору<br />чтоб собрать ещё одну пиццу
       </p>
       <div class="footer__price">
-        <b>Итого: 2 228 ₽</b>
+        <b>Итого: {{ finalTotalPrice }} ₽</b>
       </div>
 
       <div class="footer__submit">
@@ -315,6 +299,12 @@
 <script>
 export default {
   name: "Cart",
+  props: {
+    finalTotalPrice: {
+      type: Number,
+      required: true,
+    },
+  },
 };
 </script>
 

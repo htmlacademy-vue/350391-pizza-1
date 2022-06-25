@@ -7,7 +7,7 @@ export default [
       {
         path: "login",
         name: "Login",
-        component: () => import("../views/SignIn.vue"),
+        component: () => import("../views/Login.vue"),
       },
     ],
   },
@@ -20,12 +20,12 @@ export default [
     path: "/orders",
     name: "Orders",
     component: () => import("../views/Orders.vue"),
-    meta: { layout: "AppLayoutMain" },
+    meta: { layout: "AppLayoutSidebar" },
   },
   {
     path: "/profile",
     name: "Profile",
     component: () => import("../views/User.vue"),
-    meta: { layout: "AppLayoutMain" },
+    meta: { layout: "AppLayoutSidebar" },
   },
 ];

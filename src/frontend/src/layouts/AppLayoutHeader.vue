@@ -1,11 +1,11 @@
 <template>
   <header class="header">
     <div class="header__logo">
-      <Logo class="layout__logo" />
+      <Logo />
     </div>
     <Cart :finalTotalPrice="finalTotalPrice" />
 
-    <Authorization :user="user" />
+    <Authorization :user="user" @logout="$emit('logout')" />
   </header>
 </template>
 

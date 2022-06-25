@@ -1,32 +1,36 @@
 <template>
-  <div class="layout__sidebar sidebar">
-    <Logo class="layout__logo" />
-
-    <SidebarLink v-for="link in links" :key="link.pathName" :link="link" />
-  </div>
+  <AppLayoutDefault
+    :user="user"
+    :cartTotalSum="finalTotalPrice"
+    @login="$emit('login')"
+    @logout="$emit('logout')"
+  >
+    <main class="layout">
+      <AppLayoutMainSidebar />
+      <slot />
+    </main>
+  </AppLayoutDefault>
 </template>
 
 <script>
-import SidebarLink from "@/components/SidebarLink.vue";
+import AppLayoutDefault from "@/layouts/AppLayoutDefault";
+import AppLayoutMainSidebar from "@/layouts/AppLayoutMainSidebar";
 
 export default {
-  components: { SidebarLink },
-  name: "AppLayoutSidebar",
-  data() {
-    return {
-      links: [
-        {
-          to: "/orders",
-          pathName: "Orders",
-          title: "История заказов",
-        },
-        {
-          to: "/user",
-          pathName: "User",
-          title: "Мои данные",
-        },
-      ],
-    };
+  name: "AppLayoutMain",
+  components: {
+    AppLayoutDefault,
+    AppLayoutMainSidebar,
+  },
+  props: {
+    user: {
+      type: Object,
+      default: null,
+    },
+    finalTotalPrice: {
+      type: Number,
+      required: true,
+    },
   },
 };
 </script>
