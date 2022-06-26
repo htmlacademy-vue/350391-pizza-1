@@ -52,3 +52,12 @@ export const INIT_PIZZA = {
   max: 3,
   min: 0,
 };
+
+export const ADDRESS = {
+  id: 1,
+  name: "Дом",
+  street: "Невский пр.",
+  house: "22",
+  apartment: "46",
+  comment: "Позвоните, пожалуйста, от проходной",
+};

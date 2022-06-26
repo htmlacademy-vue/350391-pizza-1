@@ -1,6 +1,6 @@
 <template>
   <div class="header__cart">
-    <a href="cart.html">{{ price }} ₽</a>
+    <router-link to="/cart">{{ finalTotalPrice }} ₽</router-link>
   </div>
 </template>
 
@@ -8,7 +8,7 @@
 export default {
   name: "cart",
   props: {
-    price: {
+    finalTotalPrice: {
       type: Number,
       required: true,
     },
